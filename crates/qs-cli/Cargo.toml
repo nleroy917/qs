@@ -1,0 +1,21 @@
+[package]
+name = "qs-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "CLI for qs - semantic filesystem search"
+
+[[bin]]
+name = "qs"
+path = "src/main.rs"
+
+[dependencies]
+qs-core.workspace = true
+anyhow.workspace = true
+clap.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+tokio.workspace = true
+indicatif.workspace = true
+syntect.workspace = true

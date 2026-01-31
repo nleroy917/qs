@@ -1,0 +1,27 @@
+# Build artifacts
+/target/
+**/*.rs.bk
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# qs index folders (don't commit test indexes)
+.qs/
+
+# Fastembed model cache (downloaded models)
+# These are stored in system cache dir, but just in case
+*.onnx
+
+# Environment
+.env
+.env.local
+
+.fastembed_cache/

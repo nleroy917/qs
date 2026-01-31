@@ -1,0 +1,50 @@
+[workspace]
+resolver = "2"
+members = ["crates/qs-core", "crates/qs-cli"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+rust-version = "1.85"
+
+[workspace.dependencies]
+# Internal
+qs-core = { path = "crates/qs-core" }
+
+# Error handling
+anyhow = "1.0"
+thiserror = "2.0"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# File system
+ignore = "0.4"
+
+# CLI
+clap = { version = "4.5", features = ["derive"] }
+indicatif = "0.17"
+
+# Syntax highlighting
+syntect = "5"
+
+# Async
+tokio = { version = "1.0", features = ["full"] }
+
+# Embeddings
+fastembed = "4"
+
+# Hashing (for file change detection)
+blake3 = "1.5"
+
+# Qdrant Edge - internal crates from qdrant repo
+# Note: These are git dependencies pointing to specific paths in the qdrant monorepo
+edge = { git = "https://github.com/qdrant/qdrant.git", branch = "dev", package = "edge" }
+segment = { git = "https://github.com/qdrant/qdrant.git", branch = "dev", package = "segment" }
+shard = { git = "https://github.com/qdrant/qdrant.git", branch = "dev", package = "shard" }

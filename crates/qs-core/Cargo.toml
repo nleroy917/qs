@@ -1,0 +1,47 @@
+[package]
+name = "qs-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "Core library for qs - semantic filesystem search"
+
+[dependencies]
+# Error handling
+anyhow.workspace = true
+thiserror.workspace = true
+
+# Serialization
+serde.workspace = true
+serde_json.workspace = true
+
+# Logging
+tracing.workspace = true
+
+# File system
+ignore.workspace = true
+
+# Embeddings
+fastembed.workspace = true
+
+# Hashing
+blake3.workspace = true
+
+# Tree-sitter for code parsing
+tree-sitter = "0.24"
+tree-sitter-rust = "0.24"
+tree-sitter-python = "0.23"
+tree-sitter-javascript = "0.23"
+tree-sitter-typescript = "0.23"
+tree-sitter-go = "0.23"
+tree-sitter-java = "0.23"
+tree-sitter-c = "0.23"
+tree-sitter-cpp = "0.23"
+
+# Qdrant Edge
+edge.workspace = true
+segment.workspace = true
+shard.workspace = true
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["rt-multi-thread", "macros"] }
