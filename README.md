@@ -14,15 +14,6 @@ $ qs "function that parses tree-sitter AST"
 │   88 │ }
 ```
 
-## Features
-
-- **Semantic search** - Find code by meaning, not just keywords
-- **Local & private** - All embeddings generated and stored locally
-- **Code-aware chunking** - Uses tree-sitter to extract functions, classes, structs
-- **Syntax highlighting** - Results displayed with proper highlighting
-- **Incremental indexing** - Only re-indexes changed files
-- **Fast** - Powered by Qdrant Edge for vector storage
-
 ## Installation
 
 ```bash
