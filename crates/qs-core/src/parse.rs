@@ -12,13 +12,21 @@ use crate::extract::Chunk;
 /// Supported programming languages for tree-sitter parsing.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum CodeLanguage {
+    #[cfg(feature="rs")]
     Rust,
+    #[cfg(feature="python")]
     Python,
+    #[cfg(feature="javascript")]
     JavaScript,
+    #[cfg(feature="typescript")]
     TypeScript,
+    #[cfg(feature="go")]
     Go,
+    #[cfg(feature="java")]
     Java,
+    #[cfg(feature="c")]
     C,
+    #[cfg(feature="cpp")]
     Cpp,
 }
 
@@ -26,13 +34,21 @@ impl CodeLanguage {
     /// Detect language from file extension.
     pub fn from_extension(ext: &str) -> Option<Self> {
         match ext.to_lowercase().as_str() {
+            #[cfg(feature="rs")]
             "rs" => Some(Self::Rust),
+            #[cfg(feature="python")]
             "py" | "pyi" => Some(Self::Python),
+            #[cfg(feature="javascript")]
             "js" | "jsx" | "mjs" | "cjs" => Some(Self::JavaScript),
+            #[cfg(feature="typescript")]
             "ts" | "tsx" | "mts" | "cts" => Some(Self::TypeScript),
+            #[cfg(feature="go")]
             "go" => Some(Self::Go),
+            #[cfg(feature="java")]
             "java" => Some(Self::Java),
+            #[cfg(feature="c")]
             "c" | "h" => Some(Self::C),
+            #[cfg(feature="cpp")]
             "cpp" | "cc" | "cxx" | "hpp" | "hxx" | "hh" => Some(Self::Cpp),
             _ => None,
         }
@@ -41,13 +57,21 @@ impl CodeLanguage {
     /// Get the tree-sitter language for this code language.
     fn tree_sitter_language(&self) -> Language {
         match self {
+            #[cfg(feature="rs")]
             Self::Rust => tree_sitter_rust::LANGUAGE.into(),
+            #[cfg(feature="python")]
             Self::Python => tree_sitter_python::LANGUAGE.into(),
+            #[cfg(feature="javascript")]
             Self::JavaScript => tree_sitter_javascript::LANGUAGE.into(),
+            #[cfg(feature="typescript")]
             Self::TypeScript => tree_sitter_typescript::LANGUAGE_TYPESCRIPT.into(),
+            #[cfg(feature="go")]
             Self::Go => tree_sitter_go::LANGUAGE.into(),
+            #[cfg(feature="java")]
             Self::Java => tree_sitter_java::LANGUAGE.into(),
+            #[cfg(feature="c")]
             Self::C => tree_sitter_c::LANGUAGE.into(),
+            #[cfg(feature="cpp")]
             Self::Cpp => tree_sitter_cpp::LANGUAGE.into(),
         }
     }
@@ -55,6 +79,7 @@ impl CodeLanguage {
     /// Get the node kinds that represent top-level definitions we want to extract.
     fn definition_kinds(&self) -> &[&str] {
         match self {
+            #[cfg(feature="rs")]
             Self::Rust => &[
                 "function_item",
                 "impl_item",
@@ -67,11 +92,13 @@ impl CodeLanguage {
                 "type_item",
                 "macro_definition",
             ],
+            #[cfg(feature="python")]
             Self::Python => &[
                 "function_definition",
                 "class_definition",
                 "decorated_definition",
             ],
+            #[cfg(any(feature="javascript", feature="typescript"))]
             Self::JavaScript | Self::TypeScript => &[
                 "function_declaration",
                 "class_declaration",
@@ -81,6 +108,7 @@ impl CodeLanguage {
                 "export_statement",
                 "lexical_declaration",
             ],
+            #[cfg(feature="go")]
             Self::Go => &[
                 "function_declaration",
                 "method_declaration",
@@ -88,6 +116,7 @@ impl CodeLanguage {
                 "const_declaration",
                 "var_declaration",
             ],
+            #[cfg(feature="java")]
             Self::Java => &[
                 "class_declaration",
                 "interface_declaration",
@@ -95,6 +124,7 @@ impl CodeLanguage {
                 "method_declaration",
                 "constructor_declaration",
             ],
+            #[cfg(any(feature="c", feature="cpp"))]
             Self::C | Self::Cpp => &[
                 "function_definition",
                 "struct_specifier",
