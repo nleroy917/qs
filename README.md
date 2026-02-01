@@ -1,6 +1,6 @@
 # qs - Semantic Filesystem Search
 
-A CLI tool for semantically searching your codebase using local vector embeddings using [qdrant-edge](https://qdrant.tech/edge/). Like `grep`, but understands meaning.
+A CLI tool for semantically searching your codebase using local vector embeddings and [qdrant-edge](https://qdrant.tech/edge/). Like `grep`, but understands meaning.
 
 ```bash
 $ qs "function that parses tree-sitter AST"
