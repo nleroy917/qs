@@ -2,7 +2,7 @@
 
 use std::path::PathBuf;
 
-use crate::{embed::Embedder, storage::SearchResult, Config, Result, Storage};
+use crate::{Config, Result, Storage, embed::Embedder, storage::SearchResult};
 
 /// Searcher for querying the index.
 pub struct Searcher {

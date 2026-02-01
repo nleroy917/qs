@@ -28,8 +28,9 @@ impl Embedder {
             }
         };
 
-        let model = TextEmbedding::try_new(InitOptions::new(model_type).with_show_download_progress(true))
-            .map_err(|e| QsError::Embedding(e.to_string()))?;
+        let model =
+            TextEmbedding::try_new(InitOptions::new(model_type).with_show_download_progress(true))
+                .map_err(|e| QsError::Embedding(e.to_string()))?;
 
         Ok(Self { model })
     }

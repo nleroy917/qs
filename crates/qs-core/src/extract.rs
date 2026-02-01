@@ -11,20 +11,14 @@ use crate::{Config, Result};
 /// Known text file extensions
 const TEXT_EXTENSIONS: &[&str] = &[
     // Plain text
-    "txt", "md", "rst", "org", "adoc",
-    // Code
-    "rs", "py", "js", "ts", "jsx", "tsx", "go", "java", "c", "cpp", "h", "hpp",
-    "cs", "rb", "php", "swift", "kt", "scala", "hs", "ml", "ex", "exs", "erl",
-    "clj", "cljs", "lisp", "scm", "lua", "r", "jl", "nim", "zig", "v", "d",
-    // Web
-    "html", "htm", "css", "scss", "sass", "less", "vue", "svelte",
-    // Config
-    "json", "yaml", "yml", "toml", "xml", "ini", "cfg", "conf",
-    // Shell
-    "sh", "bash", "zsh", "fish", "ps1", "bat", "cmd",
-    // Data
-    "csv", "sql",
-    // Docs
+    "txt", "md", "rst", "org", "adoc", // Code
+    "rs", "py", "js", "ts", "jsx", "tsx", "go", "java", "c", "cpp", "h", "hpp", "cs", "rb", "php",
+    "swift", "kt", "scala", "hs", "ml", "ex", "exs", "erl", "clj", "cljs", "lisp", "scm", "lua",
+    "r", "jl", "nim", "zig", "v", "d", // Web
+    "html", "htm", "css", "scss", "sass", "less", "vue", "svelte", // Config
+    "json", "yaml", "yml", "toml", "xml", "ini", "cfg", "conf", // Shell
+    "sh", "bash", "zsh", "fish", "ps1", "bat", "cmd", // Data
+    "csv", "sql", // Docs
     "tex", "bib",
 ];
 
@@ -110,8 +104,7 @@ pub fn extract_chunks(
                         for mut sub in sub_chunks {
                             // Adjust line numbers relative to parent
                             sub.start_line += chunk.start_line - 1;
-                            sub.end_line = sub.start_line
-                                + sub.text.matches('\n').count();
+                            sub.end_line = sub.start_line + sub.text.matches('\n').count();
                             sub.index = result.len();
                             result.push(sub);
                         }

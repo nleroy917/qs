@@ -2,7 +2,7 @@
 
 use std::path::{Path, PathBuf};
 
-use crate::{QsError, Result, QS_DIR};
+use crate::{QS_DIR, QsError, Result};
 
 /// Find the .qs root directory by walking up from the given path.
 ///

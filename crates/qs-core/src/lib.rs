@@ -13,8 +13,8 @@ pub mod parse;
 pub mod search;
 pub mod storage;
 
-pub use consts::*;
 pub use config::Config;
+pub use consts::*;
 pub use discover::find_qs_root;
 pub use index::Indexer;
 pub use search::Searcher;

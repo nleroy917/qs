@@ -12,14 +12,14 @@ use segment::types::{
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use shard::count::CountRequestInternal;
+use shard::operations::CollectionUpdateOperations;
 use shard::operations::point_ops::{
     PointInsertOperationsInternal, PointOperations, PointStructPersisted,
 };
-use shard::operations::CollectionUpdateOperations;
 use shard::query::query_enum::QueryEnum;
 use shard::query::{ScoringQuery, ShardQueryRequest};
 
-use crate::{discover, Config, QsError, Result};
+use crate::{Config, QsError, Result, discover};
 
 /// Vector name used in the shard
 const VECTOR_NAME: &str = "chunks";

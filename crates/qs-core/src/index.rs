@@ -7,8 +7,8 @@ use ignore::WalkBuilder;
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    discover, embed::Embedder, extract, parse::CodeParser, storage::ChunkPayload, Config, Result,
-    Storage,
+    Config, Result, Storage, discover, embed::Embedder, extract, parse::CodeParser,
+    storage::ChunkPayload,
 };
 
 /// Progress events emitted during indexing.

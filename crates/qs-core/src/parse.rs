@@ -12,21 +12,21 @@ use crate::extract::Chunk;
 /// Supported programming languages for tree-sitter parsing.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum CodeLanguage {
-    #[cfg(feature="rs")]
+    #[cfg(feature = "rs")]
     Rust,
-    #[cfg(feature="python")]
+    #[cfg(feature = "python")]
     Python,
-    #[cfg(feature="javascript")]
+    #[cfg(feature = "javascript")]
     JavaScript,
-    #[cfg(feature="typescript")]
+    #[cfg(feature = "typescript")]
     TypeScript,
-    #[cfg(feature="go")]
+    #[cfg(feature = "go")]
     Go,
-    #[cfg(feature="java")]
+    #[cfg(feature = "java")]
     Java,
-    #[cfg(feature="c")]
+    #[cfg(feature = "c")]
     C,
-    #[cfg(feature="cpp")]
+    #[cfg(feature = "cpp")]
     Cpp,
 }
 
@@ -34,21 +34,21 @@ impl CodeLanguage {
     /// Detect language from file extension.
     pub fn from_extension(ext: &str) -> Option<Self> {
         match ext.to_lowercase().as_str() {
-            #[cfg(feature="rs")]
+            #[cfg(feature = "rs")]
             "rs" => Some(Self::Rust),
-            #[cfg(feature="python")]
+            #[cfg(feature = "python")]
             "py" | "pyi" => Some(Self::Python),
-            #[cfg(feature="javascript")]
+            #[cfg(feature = "javascript")]
             "js" | "jsx" | "mjs" | "cjs" => Some(Self::JavaScript),
-            #[cfg(feature="typescript")]
+            #[cfg(feature = "typescript")]
             "ts" | "tsx" | "mts" | "cts" => Some(Self::TypeScript),
-            #[cfg(feature="go")]
+            #[cfg(feature = "go")]
             "go" => Some(Self::Go),
-            #[cfg(feature="java")]
+            #[cfg(feature = "java")]
             "java" => Some(Self::Java),
-            #[cfg(feature="c")]
+            #[cfg(feature = "c")]
             "c" | "h" => Some(Self::C),
-            #[cfg(feature="cpp")]
+            #[cfg(feature = "cpp")]
             "cpp" | "cc" | "cxx" | "hpp" | "hxx" | "hh" => Some(Self::Cpp),
             _ => None,
         }
@@ -57,21 +57,21 @@ impl CodeLanguage {
     /// Get the tree-sitter language for this code language.
     fn tree_sitter_language(&self) -> Language {
         match self {
-            #[cfg(feature="rs")]
+            #[cfg(feature = "rs")]
             Self::Rust => tree_sitter_rust::LANGUAGE.into(),
-            #[cfg(feature="python")]
+            #[cfg(feature = "python")]
             Self::Python => tree_sitter_python::LANGUAGE.into(),
-            #[cfg(feature="javascript")]
+            #[cfg(feature = "javascript")]
             Self::JavaScript => tree_sitter_javascript::LANGUAGE.into(),
-            #[cfg(feature="typescript")]
+            #[cfg(feature = "typescript")]
             Self::TypeScript => tree_sitter_typescript::LANGUAGE_TYPESCRIPT.into(),
-            #[cfg(feature="go")]
+            #[cfg(feature = "go")]
             Self::Go => tree_sitter_go::LANGUAGE.into(),
-            #[cfg(feature="java")]
+            #[cfg(feature = "java")]
             Self::Java => tree_sitter_java::LANGUAGE.into(),
-            #[cfg(feature="c")]
+            #[cfg(feature = "c")]
             Self::C => tree_sitter_c::LANGUAGE.into(),
-            #[cfg(feature="cpp")]
+            #[cfg(feature = "cpp")]
             Self::Cpp => tree_sitter_cpp::LANGUAGE.into(),
         }
     }
@@ -79,7 +79,7 @@ impl CodeLanguage {
     /// Get the node kinds that represent top-level definitions we want to extract.
     fn definition_kinds(&self) -> &[&str] {
         match self {
-            #[cfg(feature="rs")]
+            #[cfg(feature = "rs")]
             Self::Rust => &[
                 "function_item",
                 "impl_item",
@@ -92,13 +92,13 @@ impl CodeLanguage {
                 "type_item",
                 "macro_definition",
             ],
-            #[cfg(feature="python")]
+            #[cfg(feature = "python")]
             Self::Python => &[
                 "function_definition",
                 "class_definition",
                 "decorated_definition",
             ],
-            #[cfg(any(feature="javascript", feature="typescript"))]
+            #[cfg(any(feature = "javascript", feature = "typescript"))]
             Self::JavaScript | Self::TypeScript => &[
                 "function_declaration",
                 "class_declaration",
@@ -108,7 +108,7 @@ impl CodeLanguage {
                 "export_statement",
                 "lexical_declaration",
             ],
-            #[cfg(feature="go")]
+            #[cfg(feature = "go")]
             Self::Go => &[
                 "function_declaration",
                 "method_declaration",
@@ -116,7 +116,7 @@ impl CodeLanguage {
                 "const_declaration",
                 "var_declaration",
             ],
-            #[cfg(feature="java")]
+            #[cfg(feature = "java")]
             Self::Java => &[
                 "class_declaration",
                 "interface_declaration",
@@ -124,7 +124,7 @@ impl CodeLanguage {
                 "method_declaration",
                 "constructor_declaration",
             ],
-            #[cfg(any(feature="c", feature="cpp"))]
+            #[cfg(any(feature = "c", feature = "cpp"))]
             Self::C | Self::Cpp => &[
                 "function_definition",
                 "struct_specifier",
@@ -175,6 +175,9 @@ impl Default for CodeParser {
 /// Extract chunks from a parsed syntax tree.
 fn extract_chunks(tree: &Tree, source: &str, lang: CodeLanguage) -> Vec<Chunk> {
     let mut chunks = Vec::new();
+
+    // Get the kinds of definitions to extract
+    // for each language
     let definition_kinds = lang.definition_kinds();
 
     let root = tree.root_node();
@@ -182,6 +185,7 @@ fn extract_chunks(tree: &Tree, source: &str, lang: CodeLanguage) -> Vec<Chunk> {
 
     // Walk through top-level nodes
     for child in root.children(&mut cursor) {
+        // "kind" refers to the type of syntax node (function, class, etc.)
         let kind = child.kind();
 
         // Check if this is a definition we want to extract
@@ -203,7 +207,7 @@ fn extract_chunks(tree: &Tree, source: &str, lang: CodeLanguage) -> Vec<Chunk> {
         }
     }
 
-    // If no chunks extracted (e.g., file has only nested definitions),
+    // If no chunks extracted (e.g. file has only nested definitions),
     // try extracting from all descendants
     if chunks.is_empty() {
         extract_chunks_recursive(&root, source, definition_kinds, &mut chunks);
@@ -261,10 +265,7 @@ mod tests {
 
     #[test]
     fn test_language_detection() {
-        assert_eq!(
-            CodeLanguage::from_extension("rs"),
-            Some(CodeLanguage::Rust)
-        );
+        assert_eq!(CodeLanguage::from_extension("rs"), Some(CodeLanguage::Rust));
         assert_eq!(
             CodeLanguage::from_extension("py"),
             Some(CodeLanguage::Python)

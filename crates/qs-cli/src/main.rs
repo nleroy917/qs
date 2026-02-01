@@ -5,11 +5,11 @@ use std::path::{Path, PathBuf};
 use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
 use indicatif::{ProgressBar, ProgressStyle};
-use qs_core::{discover, Config, Indexer, Searcher, QS_DIR};
+use qs_core::{Config, Indexer, QS_DIR, Searcher, discover};
 use syntect::easy::HighlightLines;
 use syntect::highlighting::ThemeSet;
 use syntect::parsing::SyntaxSet;
-use syntect::util::{as_24_bit_terminal_escaped, LinesWithEndings};
+use syntect::util::{LinesWithEndings, as_24_bit_terminal_escaped};
 
 #[derive(Parser)]
 #[command(name = "qs")]
@@ -151,7 +151,11 @@ fn cmd_index(path: Option<PathBuf>) -> Result<()> {
             qs_core::index::ProgressEvent::Scanning { count } => {
                 pb.set_message(format!("Scanning... {} files found", count));
             }
-            qs_core::index::ProgressEvent::Indexing { current, total, path } => {
+            qs_core::index::ProgressEvent::Indexing {
+                current,
+                total,
+                path,
+            } => {
                 pb.set_style(
                     ProgressStyle::default_bar()
                         .template("{spinner:.green} [{bar:40.cyan/blue}] {pos}/{len} {msg}")
@@ -202,7 +206,11 @@ fn cmd_status() -> Result<()> {
     println!("  Files indexed: {}", file_index.files.len());
     println!(
         "  Total chunks: {}",
-        file_index.files.values().map(|f| f.chunk_count).sum::<usize>()
+        file_index
+            .files
+            .values()
+            .map(|f| f.chunk_count)
+            .sum::<usize>()
     );
 
     Ok(())

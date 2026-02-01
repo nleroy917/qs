@@ -5,8 +5,8 @@ use std::path::Path;
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    discover, Result, DEFAULT_CHUNK_OVERLAP, DEFAULT_CHUNK_SIZE, DEFAULT_DIM, DEFAULT_MAX_FILE_SIZE,
-    DEFAULT_MODEL,
+    DEFAULT_CHUNK_OVERLAP, DEFAULT_CHUNK_SIZE, DEFAULT_DIM, DEFAULT_MAX_FILE_SIZE, DEFAULT_MODEL,
+    Result, discover,
 };
 
 /// Configuration stored in .qs/config.json
