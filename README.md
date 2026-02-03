@@ -18,9 +18,9 @@ $ qs "function that parses tree-sitter AST"
 
 ```bash
 # Clone and build
-git clone https://github.com/yourusername/qs
+git clone https://github.com/nleroy917/qs
 cd qs
-cargo install --path crates/qs-cli
+cargo install --path crates/qs-cli --features full
 ```
 
 Requires Rust 1.85+.

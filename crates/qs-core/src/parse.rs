@@ -55,6 +55,7 @@ impl CodeLanguage {
     }
 
     /// Get the tree-sitter language for this code language.
+    #[allow(unreachable_patterns)]
     fn tree_sitter_language(&self) -> Language {
         match self {
             #[cfg(feature = "rs")]
@@ -73,10 +74,14 @@ impl CodeLanguage {
             Self::C => tree_sitter_c::LANGUAGE.into(),
             #[cfg(feature = "cpp")]
             Self::Cpp => tree_sitter_cpp::LANGUAGE.into(),
+            _ => panic!(
+                "no tree sitter language installed for this variant. Please install with a feature (e.g. `cargo install qs-core --features rs`)"
+            ),
         }
     }
 
     /// Get the node kinds that represent top-level definitions we want to extract.
+    #[allow(unreachable_patterns)]
     fn definition_kinds(&self) -> &[&str] {
         match self {
             #[cfg(feature = "rs")]
@@ -132,6 +137,9 @@ impl CodeLanguage {
                 "class_specifier",
                 "namespace_definition",
             ],
+            _ => panic!(
+                "no tree sitter language installed for this variant. Please install with a feature (e.g. `cargo install qs-core --features rs`)"
+            ),
         }
     }
 }
